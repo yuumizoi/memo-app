@@ -1,0 +1,21 @@
+<div class="card mb-3">
+  <div class="card-header">
+    <h2 class="h4 mb-0"><%= @memo['title'] %></h2>
+  </div>
+  <div class="card-body">
+    <p class="card-text" style="white-space: pre-wrap;"><%= @memo['content'] %></p>
+  </div>
+</div>
+
+<div class="d-flex gap-2 mb-3">
+  <a href="/memos/<%= params['id'] %>/edit" class="btn btn-secondary">編集する</a>
+
+  <form method="POST" action="/memos/<%= params['id'] %>">
+    <input type="hidden" name="_method" value="delete">
+    <input type="submit" value="削除する" class="btn btn-warning">
+  </form>
+</div>
+<hr class="my-4">
+<p>
+  <a href="/memos" class="btn btn-outline-secondary">一覧に戻る</a>
+</p>

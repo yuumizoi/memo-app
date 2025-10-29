@@ -1,0 +1,19 @@
+<h2 class="h4 mb-3">メモを新規作成</h2>
+
+<form method="POST" action="/memos">
+  <div class="mb-3">
+    <label for="title" class="form-label">タイトル:</label>
+    <input type="text" id="title" name="title" class="form-control" autocomplete="off">
+  </div>
+  <div class="mb-3">
+    <label for="content" class="form-label">内容：</label>
+    <textarea id="content" name="content" rows="5" class="form-control"></textarea>
+  </div>
+  <div>
+    <input type="submit" value="保存する" class="btn btn-secondary">
+  </div>
+</form>
+<hr class="my-4">
+<p>
+  <a href="/memos" class="btn btn-outline-secondary">一覧に戻る</a>
+</p>

@@ -1,0 +1,2 @@
+EnableLinters:
+  - RuboCop
