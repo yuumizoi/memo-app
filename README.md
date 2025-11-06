@@ -39,6 +39,6 @@ bundle exec rubocop
 
 ### ERB Lint (ERBファイルのチェック)
 
-```bash
+```
 bundle exec erb_lint views/*.erb
 ```
