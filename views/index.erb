@@ -3,9 +3,9 @@
   <p>メモはまだありません。</p>
 <% else %>
 <ul class="list-unstyled mb-3">
-  <% @memos.each do |id, memo| %>
+  <% @memos.each do |memo| %>
     <li class="border-bottom py-2">
-      <a href="/memos/<%= id %>" class="text-decoration-none"><%= memo['title'] %></a>
+      <a href="/memos/<%= memo['id'] %>" class="text-decoration-none"><%= memo['title'] %></a>
     </li>
   <% end %>
 </ul>

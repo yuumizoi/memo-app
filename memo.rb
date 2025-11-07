@@ -3,6 +3,7 @@
 require 'sinatra'
 require 'sinatra/reloader'
 require 'json'
+require 'securerandom'
 
 # --- メソッドの定義 ---
 def load_memos
@@ -32,27 +33,23 @@ end
 # GET /memos/:id（特定のメモを表示）
 get '/memos/:id' do
   memos = load_memos
-  @memo = memos[params['id']]
+  @memo = memos.find { |m| m['id'] == params['id'] }
   erb :show
 end
 
 # GET /memos/:id/edit (メモ編集画面)
 get '/memos/:id/edit' do
   memos = load_memos
-  @memo = memos[params['id']]
-  @memo_id = params['id']
+  @memo = memos.find { |m| m['id'] == params['id'] }
   erb :edit
 end
 
 # PATCH /memos/:id (メモ編集・上書き保存)
 patch '/memos/:id' do
-  title = params['title']
-  content = params['content']
   memos = load_memos
-  memos[params['id']] = {
-    'title' => title,
-    'content' => content
-  }
+  memo_to_update = memos.find { |m| m['id'] == params['id'] }
+  memo_to_update['title'] = params['title']
+  memo_to_update['content'] = params['content']
   save_memos(memos)
   redirect "/memos/#{params['id']}"
 end
@@ -60,7 +57,7 @@ end
 # DELETE /memos/:id（メモ削除）
 delete '/memos/:id' do
   memos = load_memos
-  memos.delete(params['id'])
+  memos.delete_if { |m| m['id'] == params['id'] }
   save_memos(memos)
   redirect '/memos'
 end
@@ -75,11 +72,14 @@ post '/memos' do
   title = params['title']
   content = params['content']
   memos = load_memos
-  new_id = (memos.keys.map(&:to_i).max.to_i + 1).to_s
-  memos[new_id] = {
+  new_id = SecureRandom.uuid
+
+  new_memo = {
+    'id' => new_id,
     'title' => title,
     'content' => content
   }
+  memos << new_memo
   save_memos(memos)
   redirect "/memos/#{new_id}"
 end

@@ -1,6 +1,6 @@
 <h2 class="h4 mb-3">メモを編集</h2>
 
-<form method="POST" action="/memos/<%= @memo_id %>">
+<form method="POST" action="/memos/<%= @memo['id'] %>">
   <div class="mb-3">
     <label for="title" class="form-label">タイトル：</label>
     <input type="text" id="title" name="title" value="<%= @memo['title'] %>" class="form-control" autocomplete="off">
