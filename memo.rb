@@ -27,10 +27,10 @@ get '/memos' do
 end
 
 # --- ヘルパーメソッドの定義 ---
-# Sinatra::Contrib の require が効かない環境向けに、hメソッドを明示的に定義
 helpers do
   include Rack::Utils
   alias_method :h, :escape_html
+end
 
 # GET /memos/new（メモ作成画面）
 get '/memos/new' do
