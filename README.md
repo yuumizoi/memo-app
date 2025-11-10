@@ -24,8 +24,8 @@
     ```
 
 4.  **ブラウザでアクセス**
-    Webサーバーが起動したら、ブラウザで以下のURLにアクセスしてください。
-    [http://localhost:9292/memos](http://localhost:9292/memos)
+    Webサーバーが起動したら、ブラウザで以下のURLにアクセスをしてください。
+    [http://localhost:9292/](http://localhost:9292/)
 
 ## アプリケーションの停止
 ターミナルで `Ctrl + C` を押すとサーバーが停止します。
@@ -40,5 +40,5 @@ bundle exec rubocop
 ### ERB Lint (ERBファイルのチェック)
 
 ```
-bundle exec erb_lint views/*.erb
+bundle exec erb_lint --lint-all
 ```
