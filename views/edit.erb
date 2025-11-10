@@ -3,11 +3,11 @@
 <form method="POST" action="/memos/<%= @memo['id'] %>">
   <div class="mb-3">
     <label for="title" class="form-label">タイトル：</label>
-    <input type="text" id="title" name="title" value="<%= @memo['title'] %>" class="form-control" autocomplete="off">
+    <input type="text" id="title" name="title" value="<%= h(@memo['title']) %>" class="form-control" autocomplete="off">
   </div>
   <div class="mb-3">
     <label for="content" class="form-label">内容：</label>
-    <textarea id="content" name="content" rows="5" class="form-control"><%= @memo['content'] %></textarea>
+    <textarea id="content" name="content" rows="5" class="form-control"><%= h(@memo['content']) %></textarea>
   </div>
 
   <input type="hidden" name="_method" value="patch">

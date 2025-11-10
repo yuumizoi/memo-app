@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 require 'sinatra'
-require 'sinatra/reloader'
+require 'sinatra/contrib'
+# require 'sinatra/reloader'
 require 'json'
 require 'securerandom'
 
@@ -24,6 +25,12 @@ get '/memos' do
   @memos = load_memos
   erb :index
 end
+
+# --- ヘルパーメソッドの定義 ---
+# Sinatra::Contrib の require が効かない環境向けに、hメソッドを明示的に定義
+helpers do
+  include Rack::Utils
+  alias_method :h, :escape_html
 
 # GET /memos/new（メモ作成画面）
 get '/memos/new' do
