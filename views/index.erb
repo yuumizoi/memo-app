@@ -1,15 +1,17 @@
 <h2 class="h4 mb-3">メモ一覧</h2>
+
 <% if @memos.empty? %>
   <p>メモはまだありません。</p>
 <% else %>
-<ul class="list-unstyled mb-3">
-  <% @memos.each do |memo| %>
-    <li class="border-bottom py-2">
-      <a href="/memos/<%= memo['id'] %>" class="text-decoration-none"><%= h(memo['title']) %></a>
-    </li>
-  <% end %>
-</ul>
+  <ul class="list-unstyled mb-3">
+    <% @memos.each do |memo| %>
+      <li class="border-bottom py-2">
+        <a href="/memos/<%= memo['id'] %>" class="text-decoration-none"><%= h(memo['title']) %></a>
+      </li>
+    <% end %>
+  </ul>
 <% end %>
-<p>
+
+<div>
   <a href="/memos/new" class="btn btn-secondary">メモを追加する</a>
-</p>
+</div>
