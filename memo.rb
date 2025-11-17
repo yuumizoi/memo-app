@@ -4,21 +4,30 @@ require 'sinatra/contrib'
 require 'json'
 require 'securerandom'
 
+MEMO_FILE = 'memos.json'
+
 def load_memos
-  File.open('memos.json') do |file|
-    JSON.parse(file.read)
+  unless File.exist?(MEMO_FILE)
+    File.open(MEMO_FILE, 'w') { |f| f.write(JSON.pretty_generate({})) }
+    return {}
   end
+
+  file = File.read(MEMO_FILE)
+  return {} if file.empty?
+
+  JSON.parse(file)
+rescue JSON::ParserError
+  {}
 end
 
 def save_memos(memos)
-  File.open('memos.json', 'w') do |file|
+  File.open(MEMO_FILE, 'w') do |file|
     file.write(JSON.pretty_generate(memos))
   end
 end
 
-get '/memos' do
-  @memos = load_memos
-  erb :index
+def get_memo(id)
+  load_memos[id]
 end
 
 helpers do
@@ -26,34 +35,36 @@ helpers do
   alias_method :h, :escape_html
 end
 
+get '/memos' do
+  @memos = load_memos.values
+  erb :index
+end
+
 get '/memos/new' do
   erb :new
 end
 
 get '/memos/:id' do
-  memos = load_memos
-  @memo = memos.find { |m| m['id'] == params['id'] }
+  @memo = get_memo(params['id'])
   erb :show
 end
 
 get '/memos/:id/edit' do
-  memos = load_memos
-  @memo = memos.find { |m| m['id'] == params['id'] }
+  @memo = get_memo(params['id'])
   erb :edit
 end
 
 patch '/memos/:id' do
   memos = load_memos
-  memo_to_update = memos.find { |m| m['id'] == params['id'] }
-  memo_to_update['title'] = params['title']
-  memo_to_update['content'] = params['content']
+  memos[params['id']]['title'] = params['title']
+  memos[params['id']]['content'] = params['content']
   save_memos(memos)
   redirect "/memos/#{params['id']}"
 end
 
 delete '/memos/:id' do
   memos = load_memos
-  memos.delete_if { |m| m['id'] == params['id'] }
+  memos.delete(params['id'])
   save_memos(memos)
   redirect '/memos'
 end
@@ -63,17 +74,15 @@ not_found do
 end
 
 post '/memos' do
-  title = params['title']
-  content = params['content']
   memos = load_memos
   new_id = SecureRandom.uuid
 
-  new_memo = {
+  memos[new_id] = {
     'id' => new_id,
-    'title' => title,
-    'content' => content
+    'title' => params['title'],
+    'content' => params['content']
   }
-  memos << new_memo
+
   save_memos(memos)
   redirect "/memos/#{new_id}"
 end
