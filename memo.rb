@@ -46,11 +46,13 @@ end
 
 get '/memos/:id' do
   @memo = get_memo(params['id'])
+  pass if @memo.nil?
   erb :show
 end
 
 get '/memos/:id/edit' do
   @memo = get_memo(params['id'])
+  pass if @memo.nil?
   erb :edit
 end
 
