@@ -22,10 +22,11 @@
     ```bash
     bundle exec rackup
     ```
+    ※ データ保存用の `memos.json` は初回アクセス時に自動生成されるため、手動作成は不要です。
 
 4.  **ブラウザでアクセス**
     Webサーバーが起動したら、ブラウザで以下のURLにアクセスをしてください。
-    [http://localhost:9292/](http://localhost:9292/)
+    [http://localhost:9292/memos](http://localhost:9292/memos)
 
 ## アプリケーションの停止
 ターミナルで `Ctrl + C` を押すとサーバーが停止します。
@@ -40,5 +41,5 @@ bundle exec rubocop
 ### ERB Lint (ERBファイルのチェック)
 
 ```
-bundle exec erb_lint --lint-all
+bundle exec erb_lint views/*.erb
 ```
