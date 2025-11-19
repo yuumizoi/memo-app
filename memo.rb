@@ -57,11 +57,15 @@ end
 
 patch '/memos/:id' do
   memos = load_memos
-  memo_to_update = memos[params['id']]
-  memo_to_update['title'] = params['title']
-  memo_to_update['content'] = params['content']
-  save_memos(memos)
-  redirect "/memos/#{params['id']}"
+  memo = memos[params['id']]
+  if memo
+    memo['title'] = params['title']
+    memo['content'] = params['content']
+    save_memos(memos)
+    redirect "/memos/#{params['id']}"
+  else
+    pass
+  end
 end
 
 delete '/memos/:id' do
