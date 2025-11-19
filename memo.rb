@@ -17,8 +17,6 @@ def load_memos
   return {} if file.empty?
 
   JSON.parse(file)
-rescue JSON::ParserError
-  {}
 end
 
 def save_memos(memos)
