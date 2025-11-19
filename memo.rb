@@ -9,7 +9,7 @@ MEMO_FILE = 'memos.json'
 
 def load_memos
   unless File.exist?(MEMO_FILE)
-    File.open(MEMO_FILE, 'w') { |f| f.write(JSON.pretty_generate({})) }
+    save_memos({})
     return {}
   end
 
@@ -59,8 +59,9 @@ end
 
 patch '/memos/:id' do
   memos = load_memos
-  memos[params['id']]['title'] = params['title']
-  memos[params['id']]['content'] = params['content']
+  memo_to_update = memos[params['id']]
+  memo_to_update['title'] = params['title']
+  memo_to_update['content'] = params['content']
   save_memos(memos)
   redirect "/memos/#{params['id']}"
 end
