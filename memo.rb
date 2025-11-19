@@ -13,10 +13,10 @@ def load_memos
     return {}
   end
 
-  file = File.read(MEMO_FILE)
-  return {} if file.empty?
+  file_content = File.read(MEMO_FILE)
+  return {} if file_content.empty?
 
-  JSON.parse(file)
+  JSON.parse(file_content)
 end
 
 def save_memos(memos)
