@@ -9,14 +9,11 @@
     <label for="content" class="form-label">内容：</label>
     <textarea id="content" name="content" rows="5" class="form-control"><%= h(@memo['content']) %></textarea>
   </div>
-
   <input type="hidden" name="_method" value="patch">
-
   <div>
     <input type="submit" value="更新する" class="btn btn-secondary">
   </div>
 </form>
-
 <div class="my-4">
   <a href="/memos" class="btn btn-outline-secondary">一覧に戻る</a>
 </div>
