@@ -8,14 +8,8 @@ require 'securerandom'
 MEMO_FILE = 'memos.json'
 
 def load_memos
-  unless File.exist?(MEMO_FILE)
-    save_memos({})
-    return {}
-  end
-
+  save_memos({}) unless File.exist?(MEMO_FILE)
   file_content = File.read(MEMO_FILE)
-  return {} if file_content.empty?
-
   JSON.parse(file_content)
 end
 
