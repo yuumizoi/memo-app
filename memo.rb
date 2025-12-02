@@ -43,8 +43,14 @@ class Memo
     sql = "UPDATE memos SET title = $1, content = $2 WHERE id = $3;"
 
     DatabaseConnection.query(sql, [title, content, @id])
-    
+
     @title = title
     @content = content
+  end
+
+  def delete
+    sql = "DELETE FROM memos WHERE id = $1;"
+
+    DatabaseConnection.query(sql, [@id])
   end
 end
