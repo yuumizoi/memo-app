@@ -39,4 +39,29 @@ class Application < Sinatra::Base
     pass if @memo.nil?
     erb :edit
   end
+
+  patch '/memos/:id' do
+    memo = Memo.find(params['id'])
+    if memo
+      memo.update(params['title'], params['content'])
+      redirect "/memos/#{params['id']}"
+    else
+      pass
+    end
+  end
+
+  delete '/memos/:id' do
+    memo = Memo.find(params['id'])
+    memo.delete if memo
+    redirect '/memos'
+  end
+
+  not_found do
+    erb :not_found
+  end
+
+  post '/memos' do
+    new_memo = Memo.create(title: params['title'], content: params['content'])
+    redirect "/memos/#{new_memo.id}"
+  end
 end
