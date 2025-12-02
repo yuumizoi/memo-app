@@ -29,4 +29,22 @@ class Memo
     row = result.first
     Memo.new(id: row['id'], title: row['title'], content: row['content'])
   end
+
+  def self.create(title:, content:)
+    sql = "INSERT INTO memos (title, content) VALUES ($1, $2) RETURNING id;"
+
+    result = DatabaseConnection.query(sql, [title, content])
+
+    new_id = result.first['id']
+    Memo.new(id: new_id, title: title, content: content)
+  end
+
+  def update(title, content)
+    sql = "UPDATE memos SET title = $1, content = $2 WHERE id = $3;"
+
+    DatabaseConnection.query(sql, [title, content, @id])
+    
+    @title = title
+    @content = content
+  end
 end
