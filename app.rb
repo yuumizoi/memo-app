@@ -18,4 +18,25 @@ class Application < Sinatra::Base
     include Rack::Utils
     alias_method :h, :escape_html
   end
+
+  get '/memos' do
+    @memos = Memo.all
+    erb :index
+  end
+
+  get '/memos/new' do
+    erb :new
+  end
+
+  get '/memos/:id' do
+    @memo = Memo.find(params['id'])
+    pass if @memo.nil?
+    erb :show
+  end
+
+  get '/memos/:id/edit' do
+    @memo = Memo.find(params['id'])
+    pass if @memo.nil?
+    erb :edit
+  end
 end
