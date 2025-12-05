@@ -50,7 +50,7 @@ class Application < Sinatra::Base
 
   delete '/memos/:id' do
     memo = Memo.find(params['id'])
-    memo.delete if memo
+    memo&.delete
     redirect '/memos'
   end
 
