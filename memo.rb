@@ -5,19 +5,17 @@ require_relative 'database_connection'
 class Memo
   attr_reader :id, :title, :content
 
-  def initialize(id:, title:, content:)
-    @id = id.to_i
-    @title = title
-    @content = content
+  def initialize(params)
+    @id = params['id'].to_i
+    @title = params['title']
+    @content = params['content']
   end
 
   def self.all
     sql = "SELECT id, title, content FROM memos ORDER BY created_at DESC;"
     result = DatabaseConnection.query(sql)
 
-    result.map do |row|
-      Memo.new(id: row['id'], title: row['title'], content: row['content'])
-    end
+    result.map { |row| Memo.new(row) }
   end
 
   def self.find(id)
@@ -27,16 +25,15 @@ class Memo
     return nil if result.ntuples.zero?
 
     row = result.first
-    Memo.new(id: row['id'], title: row['title'], content: row['content'])
+    Memo.new(row)
   end
 
   def self.create(title:, content:)
     sql = "INSERT INTO memos (title, content) VALUES ($1, $2) RETURNING id;"
-
     result = DatabaseConnection.query(sql, [title, content])
-
-    new_id = result.first['id']
-    Memo.new(id: new_id, title: title, content: content)
+    new_id_row = result.first
+    new_params = new_id_row.merge('title' => title, 'content' => content)
+    Memo.new(new_params)
   end
 
   def update(title, content)

@@ -5,7 +5,7 @@
   <ul class="list-unstyled mb-3">
     <% @memos.each do |memo| %>
       <li class="border-bottom py-2">
-        <a href="/memos/<%= memo['id'] %>" class="text-decoration-none"><%= h(memo['title']) %></a>
+        <a href="/memos/<%= memo.id %>" class="text-decoration-none"><%= h(memo.title) %></a>
       </li>
     <% end %>
   </ul>

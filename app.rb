@@ -1,18 +1,16 @@
 # frozen_string_literal: true
 
 require 'sinatra/base'
-require 'sinatra/contrib'
 require_relative 'memo'
 require_relative 'database_connection'
 
 class Application < Sinatra::Base
   DatabaseConnection.connect('memo_app_db')
 
-  set :erb, escape_html: true
-  set :views, File.expand_path('../views', __FILE__)
-  set :public_folder, File.expand_path('../public', __FILE__)
+  set :views, File.expand_path('views', __dir__)
+  set :public_folder, File.expand_path('public', __dir__)
   set :layout, :layout
-  enable :erb
+  # enable :erb
 
   helpers do
     include Rack::Utils
@@ -56,12 +54,12 @@ class Application < Sinatra::Base
     redirect '/memos'
   end
 
-  not_found do
-    erb :not_found
-  end
-
   post '/memos' do
     new_memo = Memo.create(title: params['title'], content: params['content'])
     redirect "/memos/#{new_memo.id}"
+  end
+
+  not_found do
+    erb :not_found
   end
 end
