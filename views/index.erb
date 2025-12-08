@@ -3,9 +3,13 @@
   <p>メモはまだありません。</p>
 <% else %>
   <ul class="list-unstyled mb-3">
-    <% @memos.each do |memo| %>
+# frozen_string_literal: true
+@memos.each
+ do |memo| %>
       <li class="border-bottom py-2">
-        <a href="/memos/<%= memo.id %>" class="text-decoration-none"><%= h(memo.title) %></a>
+# frozen_string_literal: true
+h(memo.title)
+ %></a>
       </li>
     <% end %>
   </ul>
