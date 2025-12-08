@@ -16,9 +16,9 @@
 
 2.  **Gemのインストール**
     (PostgreSQL接続に必要な `pg` gem など、すべての依存関係をインストールします)
-    ```bash
-    bundle install
-    ```
+  ```bash
+  bundle install
+  ```
 
 3. **データベースのセットアップ (PostgreSQL)**
 - データベースサーバーが起動していることを確認し、以下の手順でDBを作成・テーブルを初期化します。
@@ -42,9 +42,9 @@
   :::
 
 4.  **Webサーバーの起動**
-    ```bash
-    bundle exec rackup
-    ```
+  ```bash
+  bundle exec rackup
+  ```
 
 5.  **ブラウザでアクセス**
 - Webサーバーが起動したら、ブラウザで以下のURLにアクセスをしてください。
