@@ -1,5 +1,23 @@
----
-glob: "**/*.erb"
+glob: "views/**/*.erb"
+
 linters:
+  Rubocop:
+    enabled: true
+  MissingTranslation:
+    enabled: false
+  ContentSecurityPolicy:
+    enabled: false
   RequireInputAutocomplete:
     enabled: false
+  RequireInputHelpers:
+    enabled: false
+
+  Layout/InitialIndentation:
+    enabled: true
+    allow_for_embedded_ruby: true
+
+  Layout/TrailingEmptyLines:
+    enabled: true
+
+  Style/FrozenStringLiteralComment:
+    enabled: true
