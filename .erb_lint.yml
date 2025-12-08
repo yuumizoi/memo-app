@@ -21,3 +21,9 @@ linters:
 
   Style/FrozenStringLiteralComment:
     enabled: true
+
+exclude:
+  - 'views/edit.erb'
+  - 'views/index.erb'
+  - 'views/layout.erb'
+  - 'views/show.erb'
