@@ -61,5 +61,5 @@
 
 ### ERB Lint (ERBファイルのチェック)
   ```bash
-  bundle exec erb_lint --lint-all views
+  bundle exec erb_lint --lint-all
   ```
