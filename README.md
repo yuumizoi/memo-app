@@ -32,7 +32,7 @@
 3-2. **テーブルの初期化**
 - DBに接続し、`memos` テーブルを作成します。
   ```bash
-  psql -d memo_app_db -f schema.sql
+  psql -d memo_app_db -f db/schema.sql
   ```
 
   :::note warn
