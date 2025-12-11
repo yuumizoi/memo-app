@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# database_connection.rb
 require 'pg'
 
 class DatabaseConnection
@@ -17,8 +16,5 @@ class DatabaseConnection
     raise 'Database connection is not established. Call DatabaseConnection.connect first.' unless @connection
 
     @connection.exec_params(sql, params)
-  rescue PG::Error => e
-    puts "Database Error: #{e.message}"
-    raise e
   end
 end

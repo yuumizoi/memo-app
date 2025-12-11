@@ -8,7 +8,6 @@ class Application < Sinatra::Base
   set :views, File.expand_path('views', __dir__)
   set :public_folder, File.expand_path('public', __dir__)
   set :layout, :layout
-  # enable :erb
 
   helpers do
     include Rack::Utils

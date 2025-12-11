@@ -13,7 +13,11 @@ class Memo
   end
 
   def self.all
-    sql = 'SELECT id, title, content FROM memos ORDER BY created_at DESC;'
+    sql = <<~SQL
+      SELECT id, title, content
+      FROM memos
+      ORDER BY created_at DESC;
+    SQL
     result = DatabaseConnection.query(sql)
 
     result.map { |row| Memo.new(row) }
@@ -32,9 +36,8 @@ class Memo
   def self.create(title:, content:)
     sql = 'INSERT INTO memos (title, content) VALUES ($1, $2) RETURNING id;'
     result = DatabaseConnection.query(sql, [title, content])
-    new_id_row = result.first
-    new_params = new_id_row.merge('title' => title, 'content' => content)
-    Memo.new(new_params)
+    new_id = result.first['id']
+    self.find(new_id)
   end
 
   def update(title:, content:)
