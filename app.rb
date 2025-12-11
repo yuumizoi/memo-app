@@ -39,7 +39,7 @@ class Application < Sinatra::Base
   patch '/memos/:id' do
     memo = Memo.find(params['id'])
     if memo
-      memo.update(params['title'], params['content'])
+      memo.update(title: params['title'], content: params['content'])
       redirect "/memos/#{params['id']}"
     else
       pass

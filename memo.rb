@@ -37,13 +37,9 @@ class Memo
     Memo.new(new_params)
   end
 
-  def update(title, content)
+  def update(title:, content:)
     sql = 'UPDATE memos SET title = $1, content = $2 WHERE id = $3;'
-
     DatabaseConnection.query(sql, [title, content, @id])
-
-    @title = title
-    @content = content
   end
 
   def delete
