@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative 'database_connection'
+DatabaseConnection.connect('memo_app_db')
 
 class Memo
   attr_reader :id, :title, :content

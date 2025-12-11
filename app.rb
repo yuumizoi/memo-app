@@ -5,8 +5,6 @@ require_relative 'memo'
 require_relative 'database_connection'
 
 class Application < Sinatra::Base
-  DatabaseConnection.connect('memo_app_db')
-
   set :views, File.expand_path('views', __dir__)
   set :public_folder, File.expand_path('public', __dir__)
   set :layout, :layout
