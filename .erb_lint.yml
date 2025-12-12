@@ -1,4 +1,4 @@
-glob: "views/**/*.erb"
+glob: "**/*.erb"
 
 linters:
   Rubocop:
@@ -11,19 +11,3 @@ linters:
     enabled: false
   RequireInputHelpers:
     enabled: false
-
-  Layout/InitialIndentation:
-    enabled: true
-    allow_for_embedded_ruby: true
-
-  Layout/TrailingEmptyLines:
-    enabled: true
-
-  Style/FrozenStringLiteralComment:
-    enabled: true
-
-exclude:
-  - 'views/edit.erb'
-  - 'views/index.erb'
-  - 'views/layout.erb'
-  - 'views/show.erb'
