@@ -37,17 +37,17 @@ class Memo
     sql = 'INSERT INTO memos (title, content) VALUES ($1, $2) RETURNING id;'
     result = DatabaseConnection.query(sql, [title, content])
     new_id = result.first['id']
-    self.find(new_id)
+    find(new_id)
   end
 
-  def update(title:, content:)
+  def self.update(id:, title:, content:)
     sql = 'UPDATE memos SET title = $1, content = $2 WHERE id = $3;'
-    DatabaseConnection.query(sql, [title, content, @id])
+    DatabaseConnection.query(sql, [title, content, id])
   end
 
-  def delete
+  def self.delete(id)
     sql = 'DELETE FROM memos WHERE id = $1;'
 
-    DatabaseConnection.query(sql, [@id])
+    DatabaseConnection.query(sql, [id])
   end
 end
