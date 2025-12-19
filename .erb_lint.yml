@@ -1,13 +1,5 @@
 glob: "**/*.erb"
 
 linters:
-  Rubocop:
-    enabled: true
-  MissingTranslation:
-    enabled: false
-  ContentSecurityPolicy:
-    enabled: false
   RequireInputAutocomplete:
-    enabled: false
-  RequireInputHelpers:
     enabled: false
