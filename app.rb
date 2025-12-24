@@ -2,7 +2,6 @@
 
 require 'sinatra/base'
 require_relative 'memo'
-require_relative 'database_connection'
 
 class Application < Sinatra::Base
   set :views, File.expand_path('views', __dir__)
