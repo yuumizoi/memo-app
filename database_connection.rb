@@ -13,8 +13,6 @@ class DatabaseConnection
   end
 
   def self.query(sql, params = [])
-    raise 'Database connection is not established. Call DatabaseConnection.connect first.' unless @connection
-
-    @connection.exec_params(sql, params)
+    connect.exec_params(sql, params)
   end
 end
