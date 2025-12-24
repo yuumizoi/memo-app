@@ -24,7 +24,9 @@ class Memo
   end
 
   def self.find(id)
-    sql = 'SELECT id, title, content FROM memos WHERE id = $1;'
+    sql = <<~SQL
+      SELECT id, title, content FROM memos WHERE id = $1;
+    SQL
     result = DatabaseConnection.query(sql, [id.to_i])
 
     return nil if result.ntuples.zero?
@@ -34,20 +36,25 @@ class Memo
   end
 
   def self.create(title:, content:)
-    sql = 'INSERT INTO memos (title, content) VALUES ($1, $2) RETURNING id;'
+    sql = <<~SQL
+      INSERT INTO memos (title, content) VALUES ($1, $2) RETURNING id;
+    SQL
     result = DatabaseConnection.query(sql, [title, content])
-    new_id = result.first['id']
-    find(new_id)
+    id = result.first['id']
+    find(id)
   end
 
   def self.update(id:, title:, content:)
-    sql = 'UPDATE memos SET title = $1, content = $2 WHERE id = $3;'
+    sql = <<~SQL
+      UPDATE memos SET title = $1, content = $2 WHERE id = $3;
+    SQL
     DatabaseConnection.query(sql, [title, content, id])
   end
 
   def self.delete(id)
-    sql = 'DELETE FROM memos WHERE id = $1;'
-
+    sql = <<~SQL
+      DELETE FROM memos WHERE id = $1;
+    SQL
     DatabaseConnection.query(sql, [id])
   end
 end
