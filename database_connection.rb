@@ -13,6 +13,6 @@ class DatabaseConnection
   end
 
   def self.query(sql, params = [])
-    connect.exec_params(sql, params)
+    connect('memo_app_db').exec_params(sql, params)
   end
 end
