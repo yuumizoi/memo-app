@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
-# memo.rb ファイル読み込み
-require './memo'
+require './app'
 
-# Sinatra アプリケーションを実行対象として指定
-run Sinatra::Application
+use Rack::MethodOverride
+run Application

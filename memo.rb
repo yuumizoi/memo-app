@@ -1,88 +1,80 @@
 # frozen_string_literal: true
 
-require 'sinatra'
-require 'sinatra/contrib'
-require 'json'
-require 'securerandom'
+require_relative 'database_connection'
 
-MEMO_FILE = 'memos.json'
+class Memo
+  attr_reader :id, :title, :content
 
-def load_memos
-  save_memos({}) unless File.exist?(MEMO_FILE)
-  file_content = File.read(MEMO_FILE)
-  JSON.parse(file_content)
-end
-
-def save_memos(memos)
-  File.open(MEMO_FILE, 'w') do |file|
-    file.write(JSON.pretty_generate(memos))
+  def initialize(params)
+    @id = params['id'].to_i
+    @title = params['title']
+    @content = params['content']
   end
-end
 
-def get_memo(id)
-  load_memos[id]
-end
+  def self.all
+    sql = <<~SQL
+      SELECT
+        id, title, content
+      FROM
+        memos
+      ORDER BY
+        created_at DESC;
+    SQL
+    result = DatabaseConnection.query(sql)
 
-helpers do
-  include Rack::Utils
-  alias_method :h, :escape_html
-end
-
-get '/memos' do
-  @memos = load_memos.values
-  erb :index
-end
-
-get '/memos/new' do
-  erb :new
-end
-
-get '/memos/:id' do
-  @memo = get_memo(params['id'])
-  pass if @memo.nil?
-  erb :show
-end
-
-get '/memos/:id/edit' do
-  @memo = get_memo(params['id'])
-  pass if @memo.nil?
-  erb :edit
-end
-
-patch '/memos/:id' do
-  memos = load_memos
-  memo = memos[params['id']]
-  if memo
-    memo['title'] = params['title']
-    memo['content'] = params['content']
-    save_memos(memos)
-    redirect "/memos/#{params['id']}"
-  else
-    pass
+    result.map { |row| Memo.new(row) }
   end
-end
 
-delete '/memos/:id' do
-  memos = load_memos
-  memos.delete(params['id'])
-  save_memos(memos)
-  redirect '/memos'
-end
+  def self.find(id)
+    sql = <<~SQL
+      SELECT
+        id, title, content
+      FROM
+        memos
+      WHERE
+        id = $1;
+    SQL
+    result = DatabaseConnection.query(sql, [id.to_i])
 
-not_found do
-  erb :not_found
-end
+    return nil if result.ntuples.zero?
 
-post '/memos' do
-  memos = load_memos
-  new_id = SecureRandom.uuid
+    row = result.first
+    Memo.new(row)
+  end
 
-  memos[new_id] = {
-    'id' => new_id,
-    'title' => params['title'],
-    'content' => params['content']
-  }
+  def self.create(title:, content:)
+    sql = <<~SQL
+      INSERT INTO
+        memos (title, content)
+      VALUES
+        ($1, $2)
+      RETURNING
+        id;
+    SQL
+    result = DatabaseConnection.query(sql, [title, content])
+    id = result.first['id']
+    find(id)
+  end
 
-  save_memos(memos)
-  redirect "/memos/#{new_id}"
+  def self.update(id:, title:, content:)
+    sql = <<~SQL
+      UPDATE
+        memos
+      SET
+        title = $1, content = $2
+      WHERE
+        id = $3;
+    SQL
+    DatabaseConnection.query(sql, [title, content, id])
+  end
+
+  def self.delete(id)
+    sql = <<~SQL
+      DELETE FROM
+        memos
+      WHERE
+        id = $1;
+    SQL
+    DatabaseConnection.query(sql, [id])
+  end
 end
