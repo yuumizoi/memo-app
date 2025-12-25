@@ -13,9 +13,12 @@ class Memo
 
   def self.all
     sql = <<~SQL
-      SELECT id, title, content
-      FROM memos
-      ORDER BY created_at DESC;
+      SELECT
+        id, title, content
+      FROM
+        memos
+      ORDER BY
+        created_at DESC;
     SQL
     result = DatabaseConnection.query(sql)
 
